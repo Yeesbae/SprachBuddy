@@ -10,3 +10,7 @@ BASE_URL = f"https://api.telegram.org/bot{TOKEN}"
 
 app.include_router(webhook.router)
 app.include_router(health.router)
+
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=8080)
