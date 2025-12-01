@@ -1,4 +1,5 @@
 from services.telegram import send_message
+from fastapi import Request
 
 @router.post("/telegram")
 async def telegram_webhook(request: Request):
