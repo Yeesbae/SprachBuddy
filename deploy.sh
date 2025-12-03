@@ -4,8 +4,7 @@
 # Bash / Terminal version
 # -------------------------------
 
-# Exit on errors
-set -e
+set -e  # Exit on error
 
 # Load .env file
 if [ -f ".env" ]; then
@@ -15,8 +14,12 @@ else
   exit 1
 fi
 
-# Set your project ID and Cloud Run service name
-PROJECT_ID="<YOUR_PROJECT_ID>"  # Replace with your GCP project ID
+# Ensure required env vars exist
+if [ -z "$PROJECT_ID" ] || [ -z "$BOT_TOKEN" ]; then
+  echo "PROJECT_ID or BOT_TOKEN not set in .env!"
+  exit 1
+fi
+
 SERVICE_NAME="sprachbuddy"
 REGION="asia-southeast1"
 IMAGE_NAME="$SERVICE_NAME:latest"
