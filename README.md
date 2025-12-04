@@ -62,20 +62,20 @@ Architechture Overview Diagram
 ## Build docker image
 Build the Docker image locally:
 ```bash
-docker build -t gcr.io/<PROJECT_ID>/sprachbuddy:latest .
+docker build -t sprachbuddy:latest .
+```
+
+Tag Docker image for Google Container Registry (GCR)
+```bash
+docker tag sprachbuddy:latest gcr.io/$PROJECT_ID/sprachbuddy:latest
 ```
 
 Push to Google Container Registry
 ```bash
-docker build -t gcr.io/<PROJECT_ID>/sprachbuddy:latest .
+docker push gcr.io/$PROJECT_ID/sprachbuddy:latest
 ```
+
 Deploy
 ```bash
-gcloud run deploy sprachbuddy \
-  --image gcr.io/<PROJECT_ID>/sprachbuddy:latest \
-  --platform managed \
-  --region asia-southeast1 \
-  --allow-unauthenticated \
-  --port 8080 \
-  --set-env-vars BOT_TOKEN=<YOUR_TELEGRAM_BOT_TOKEN>
+gcloud run deploy sprachbuddy --image gcr.io/$PROJECT_ID/sprachbuddy:latest --platform managed --region asia-southeast1 --allow-unauthenticated --port 8080 --set-env-vars BOT_TOKEN=$BOT_TOKEN
 ```
