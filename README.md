@@ -2,7 +2,7 @@
 
 Architechture Overview Diagram
 ```bash
-┌───────────────────────────┐
+                         ┌───────────────────────────┐
                          │        Telegram API        │
                          │  (sends webhook updates)   │
                          └──────────────┬────────────┘

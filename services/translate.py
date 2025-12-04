@@ -3,8 +3,8 @@ from deep_translator import GoogleTranslator
 
 translator = Translator()
 
-def google_trans(text, target_lang):
-    result = translator.translate(text, dest=target_lang)
+async def google_trans(text, target_lang):
+    result = await translator.translate(text, dest=target_lang)
     return result.text
 
 
