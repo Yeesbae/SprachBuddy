@@ -24,8 +24,15 @@ async def translate(request: Request):
         chat_id = update["message"]["chat"]["id"]
         text = update["message"]["text"]
 
-        translated_text = google_trans(text, target_lang="de")
+        translated_text_google = google_trans(text, target_lang="de")
+        translated_text_deep = deep_trans(text, target_lang="de")
 
-        await send_message(chat_id, translated_text)
+        reply_message = (
+            f"📌 *Original:*\n{text}\n\n"
+            f"🌐 *Google Translate:*\n{translated_text_google}\n\n"
+            f"🔁 *Deep Translator:*\n{translated_text_deep}"
+        )
+
+        await send_message(chat_id, reply_message)
     
     return {"status": "ok"}
