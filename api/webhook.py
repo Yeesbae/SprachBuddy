@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request
-from services.telegram import send_message
+from services.telegram import send_message, send_voice
 from services.translate import google_trans, deep_trans
+from services.audio import text_to_speech
 from core.config import ALLOWED_TOPIC_IDS
 from utils.find_topic_id import print_message_info  # DEBUG: Import helper
 import logging
@@ -58,6 +59,10 @@ async def telegram_webhook(request: Request):
                 f"🔁 *Deep Translator:*\n{translated_text_deep}"
             )
             await send_message(chat_id, reply_message, message_thread_id)
+            
+            # Generate and send audio for the German translation
+            audio_bytes = text_to_speech(translated_text_google, lang='de')
+            await send_voice(chat_id, audio_bytes, message_thread_id)
     else:
         # await send_message(chat_id, "❌ Unrecognized command.")
         translated_text_google = await google_trans(text, target_lang="de")
@@ -69,5 +74,9 @@ async def telegram_webhook(request: Request):
             f"🔁 *Deep Translator:*\n{translated_text_deep}"
         )
         await send_message(chat_id, reply_message, message_thread_id)
+        
+        # Generate and send audio for the German translation
+        audio_bytes = text_to_speech(translated_text_google, lang='de')
+        await send_voice(chat_id, audio_bytes, message_thread_id)
     
     return {"status": "ok"}

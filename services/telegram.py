@@ -32,3 +32,30 @@ async def send_message(chat_id, text, message_thread_id=None):
             logging.error(f"Telegram API error: {e.response.text}")
         except Exception as e:
             logging.error(f"Unexpected error sending message: {e}")
+
+async def send_voice(chat_id, audio_bytes, message_thread_id=None):
+    """
+    Send a voice message to a Telegram chat.
+    
+    Args:
+        chat_id: The chat ID to send the voice to
+        audio_bytes: The audio file as a BytesIO object
+        message_thread_id: Optional. The topic/forum thread ID to reply to
+    """
+    async with httpx.AsyncClient() as client:
+        try:
+            files = {
+                "voice": ("speech.mp3", audio_bytes, "audio/mpeg")
+            }
+            data = {
+                "chat_id": chat_id,
+            }
+            if message_thread_id is not None:
+                data["message_thread_id"] = message_thread_id
+            
+            resp = await client.post(f"{BASE}/sendVoice", data=data, files=files)
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            logging.error(f"Telegram API error: {e.response.text}")
+        except Exception as e:
+            logging.error(f"Unexpected error sending voice: {e}")
