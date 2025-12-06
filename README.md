@@ -59,7 +59,7 @@ Architechture Overview Diagram
                             └──────────────────────────┘
 ```
 
-## Build docker image
+## Windows
 Build the Docker image locally:
 ```bash
 docker build -t sprachbuddy:latest .
@@ -77,5 +77,16 @@ docker push gcr.io/$PROJECT_ID/sprachbuddy:latest
 
 Deploy
 ```bash
+gcloud run deploy sprachbuddy --image gcr.io/$PROJECT_ID/sprachbuddy:latest --platform managed --region asia-southeast1 --allow-unauthenticated --port 8080 --set-env-vars BOT_TOKEN=$BOT_TOKEN
+```
+
+## Mac
+Build the Docker image locally and push:
+```bash
+docker buildx build --platform linux/amd64 -t gcr.io/$PROJECT_ID/sprachbuddy:latest --push .
+```
+
+Deploy
+````bash
 gcloud run deploy sprachbuddy --image gcr.io/$PROJECT_ID/sprachbuddy:latest --platform managed --region asia-southeast1 --allow-unauthenticated --port 8080 --set-env-vars BOT_TOKEN=$BOT_TOKEN
 ```
